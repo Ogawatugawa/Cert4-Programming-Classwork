@@ -15,14 +15,13 @@ namespace QuarterHeart
         public int curHealth = 12;
         [Header("Heart Slots")]   // HOMEWORK GOES HERE
         //Canvas Image heartSlots array
-        //public Image[] heartSlots;
+        public Image[] heartSlots;
         //Sprite hearts array
         public Sprite[] hearts = new Sprite[5];
         //private percent healthPerSection
         private float healthPerSection;
 
         public Image heartImagePrefab;
-        public Image[] heartSlots;
         private int width;
         private float spacing = 35f;
 
@@ -35,7 +34,6 @@ namespace QuarterHeart
             width = maxHealth / 4;
             heartSlots = new Image[width];
             GenerateHearts();
-            // Run UpdateHearts
             UpdateHearts();
         }
         #endregion
