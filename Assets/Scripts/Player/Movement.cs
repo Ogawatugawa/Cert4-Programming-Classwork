@@ -5,7 +5,7 @@ using System.Collections;
 //This script requires the component Character controller
 [RequireComponent(typeof(CharacterController))]
 //This makes the script pull the Character Controller component onto the object along with this script
-[AddComponentMenu("IntroPRG/RPG/Player/Movement")]
+[AddComponentMenu("Intro PRG/Player/Movement")]
 //This creates a new section in the Add Component Menu called "IntroPRG", with the subsection inside called "RPG", and names the script Player Movement. Each backslash denotes a new subsection.
 public class Movement : MonoBehaviour
 {
@@ -26,9 +26,8 @@ public class Movement : MonoBehaviour
     //public float variables jumpSpeed, speed, gravity
     public float jumpSpeed;
     public float speed;
-	
-	//public float sprintSpeed;
-    
+	public float sprintSpeedBonus;
+    public float crouchSpeedPenalty;
 	public float gravity;
     //You can also write this as public float jumpSpeed, speed, gravity; but it'll screw up the formatting
     //fix this by writing is as:
@@ -49,7 +48,15 @@ public class Movement : MonoBehaviour
     }
     #endregion
     #region Update
-    private void Update()
+    void Update()
+    {
+        Move();
+        Sprint();
+        Crouch();
+    }
+    #endregion
+
+    void Move ()
     {
 
         //if our character is grounded
@@ -72,16 +79,12 @@ public class Movement : MonoBehaviour
 
             if (Input.GetButton("Jump"))
             //our moveDir.y is equal to our jump speed
-                {
+            {
                 moveDirection.y = jumpSpeed;
-                }
+            }
 
-			/*if (Input.GetButtonDown("Sprint"))
-				{
-				speed = sprintSpeed;
-				Debug.Log ("Sprinting");
-				}
-			*/
+
+
         }
         //regardless of if we are grounded or not the players moveDir.y is always affected by gravity timesed by time.deltaTime to normalize it
         moveDirection.y -= gravity * Time.deltaTime;
@@ -91,7 +94,38 @@ public class Movement : MonoBehaviour
         _charC.Move(moveDirection * Time.deltaTime);
         //using deltaTime makes the speed of movement act according to the frame time rather than by real time, keeping it consistent regardless of the rendering speed
     }
-    #endregion
+
+    void Sprint ()
+    {
+        if (Input.GetButtonDown("Sprint"))
+        {
+            speed += sprintSpeedBonus;
+            Debug.Log("Sprinting");
+        }
+
+        if (Input.GetButtonUp("Sprint"))
+        {
+            speed -= sprintSpeedBonus;
+            Debug.Log("Walking");
+        }
+    }
+
+    void Crouch ()
+    {
+        if (Input.GetButtonDown("Crouch"))
+        {
+            transform.localScale -= new Vector3(0, 0.5f, 0);
+            speed += crouchSpeedPenalty;
+            Debug.Log("Crouching");
+        }
+
+        if (Input.GetButtonUp("Crouch"))
+        {
+            transform.localScale += new Vector3(0, 0.5f, 0);
+            speed -= crouchSpeedPenalty;
+            Debug.Log("Walking");
+        }
+    }
 }
 //Input Manager(https://docs.unity3d.com/Manual/class-InputManager.html)
 //Input(https://docs.unity3d.com/ScriptReference/Input.html)
