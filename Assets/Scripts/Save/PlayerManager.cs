@@ -18,9 +18,12 @@ public class PlayerManager : MonoBehaviour
 
     public void SavePlayer()
     {
-        xPos = checkPoint.curCheckPoint.x;
+        /*xPos = checkPoint.curCheckPoint.x;
         yPos = checkPoint.curCheckPoint.y;
-        zPos = checkPoint.curCheckPoint.z;
+        zPos = checkPoint.curCheckPoint.z;*/
+        xPos = gameObject.transform.position.x;
+        yPos = gameObject.transform.position.y;
+        zPos = gameObject.transform.position.z;
         Save.SavePlayerdata(this);
     }
 
