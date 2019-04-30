@@ -37,18 +37,45 @@ namespace Player
                 //Create a new RaycastHit variable called hitInfo
                 //RaycastHit is a structure used to get information back from whatever the raycast hits
                 RaycastHit hitInfo;
-                
+
                 //if this physics raycast hits something within 10 units
                 if (Physics.Raycast(interact, out hitInfo, 10))
                 {
                     #region NPC tag
-
+                    DialogueManager dm = GameObject.FindGameObjectWithTag("Dialogue Manager").GetComponent<DialogueManager>();
+                    dm.dlg = hitInfo.transform.GetComponent<Dialogue2>();
                     //and that hits info is tagged NPC
                     if (hitInfo.collider.CompareTag("NPC"))
                     {
-                        //Debug that we hit a NPC
-                        Debug.Log("Talking to NPC");
+                        //Dialogue dialogue = hitInfo.transform.GetComponent<Dialogue>();
+                        //if (dialogue)
+                        //{
+                        //    dialogue.showDialogue = true;
+                        //    // Disable player movement
+                        //    Movement.canMove = false;
+                        //    Cursor.lockState = CursorLockMode.Confined;
+                        //    Cursor.visible = true;
+
+                        //}
+
+                        Dialogue2 dialogue2 = hitInfo.transform.GetComponent<Dialogue2>();
+                        if (dialogue2)
+                        {
+                            Movement.canMove = false;
+                            
+                            dm.dlgText = new string[dialogue2.dialogueText.Length];
+                            dm.dlgText = dialogue2.dialogueText;
+                            dm.DialogueOn = true;
+
+                            QuestGiver questGiver = hitInfo.collider.GetComponent<QuestGiver>();
+                            if (questGiver)
+                            {
+                                dm.questGiver = questGiver;
+                            }
+                        }
                     }
+
+                    
                     #endregion
                     #region Item
                     //and that hits info is tagged Item
@@ -61,8 +88,8 @@ namespace Player
 
             }
         }
-      
-        
+
+
         #endregion
         #endregion
     }

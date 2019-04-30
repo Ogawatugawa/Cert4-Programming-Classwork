@@ -8,6 +8,8 @@ TagManager:
   - Item
   - CheckPoint
   - Enemy
+  - Dialogue Manager
+  - Quest Giver
   layers:
   - Default
   - TransparentFX

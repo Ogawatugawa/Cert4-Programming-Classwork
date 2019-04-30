@@ -46,58 +46,61 @@ public class MouseLook : MonoBehaviour
     #region Update
     private void Update()
     {
-        #region Mouse X and Y
-        if (axis == RotationalAxis.Mousexandy)
-        //if our axis is set to Mouse X and Y
+        if (Movement.canMove)
         {
-            float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
-            //Declaring rotationX here denotes that this variable will only be accessible here in this function 
+            #region Mouse X and Y
+            if (axis == RotationalAxis.Mousexandy)
+            //if our axis is set to Mouse X and Y
+            {
+                float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
+                //Declaring rotationX here denotes that this variable will only be accessible here in this function 
 
-            rotationX += Input.GetAxis("Mouse X") * sensitivityX;
-            //float rotation x is equal to our y axis plus the mouse input on the Mouse X times our x sensitivity
-            rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-            //our rotation Y is plus equals  our mouse input for Mouse Y times Y sensitivity
-            rotationY = Mathf.Clamp(rotationY, minY, maxY);
-            //the rotation Y is clamped using Mathf and we are clamping the y rotation to the Y min and Y max
-            transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
-            //transform our local position to the new vector3 rotaion - y rotation on the x axis and x rotation on the y axis
-            //We make the y rotation negative since the 0,0 point on the screen is in the top left corner
+                rotationX += Input.GetAxis("Mouse X") * sensitivityX;
+                //float rotation x is equal to our y axis plus the mouse input on the Mouse X times our x sensitivity
+                rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+                //our rotation Y is plus equals  our mouse input for Mouse Y times Y sensitivity
+                rotationY = Mathf.Clamp(rotationY, minY, maxY);
+                //the rotation Y is clamped using Mathf and we are clamping the y rotation to the Y min and Y max
+                transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+                //transform our local position to the new vector3 rotaion - y rotation on the x axis and x rotation on the y axis
+                //We make the y rotation negative since the 0,0 point on the screen is in the top left corner
 
+            }
+
+
+
+
+
+            #endregion
+            #region Mouse X
+            else if (axis == RotationalAxis.MouseX)
+            //else if we are rotating on the X
+            {
+                transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
+                //transform the rotation on our game objects Y by our Mouse input Mouse X times X sensitivity
+                //x                y                          z
+            }
+
+
+
+
+            #endregion
+            #region Mouse Y
+
+            else
+            //else we are only rotation on the Y
+            {
+                rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+                //our rotation Y is plus equals our mouse input for Mouse Y times Y sensitivity
+                rotationY = Mathf.Clamp(rotationY, minY, maxY);
+                //the rotation Y is clamped using Mathf and we are clamping the y rotation to the Y min and Y max
+                transform.localEulerAngles = new Vector3(-rotationY, 0, 0);
+                //transform our local position to the nex vector3 rotation - y rotation on the x axis and local euler angle Y on the y axis
+            }
+
+
+            #endregion 
         }
-
-
-
-
-
-        #endregion
-        #region Mouse X
-        else if (axis == RotationalAxis.MouseX)
-        //else if we are rotating on the X
-        {
-            transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
-            //transform the rotation on our game objects Y by our Mouse input Mouse X times X sensitivity
-            //x                y                          z
-        }
-
-
-
-
-        #endregion
-        #region Mouse Y
-
-        else
-        //else we are only rotation on the Y
-        {
-            rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-            //our rotation Y is plus equals our mouse input for Mouse Y times Y sensitivity
-            rotationY = Mathf.Clamp(rotationY, minY, maxY);
-            //the rotation Y is clamped using Mathf and we are clamping the y rotation to the Y min and Y max
-            transform.localEulerAngles = new Vector3(-rotationY, 0, 0);
-            //transform our local position to the nex vector3 rotation - y rotation on the x axis and local euler angle Y on the y axis
-        }
-
-
-        #endregion
     }
 
 
