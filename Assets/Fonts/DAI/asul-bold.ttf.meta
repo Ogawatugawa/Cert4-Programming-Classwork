@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 4a78aa91660f3a04a95054ceb88717a3
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Asul
+  fontNames:
+  - Asul
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 32f6ba98750d43c4fb6570260a4448d5, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

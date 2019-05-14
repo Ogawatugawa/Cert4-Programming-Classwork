@@ -8,11 +8,10 @@ namespace Player
     public class Interact : MonoBehaviour
     {
         #region Variables
-        //We are setting up these variable and the tags in update for week 3,4 and 5
         [Header("Player and Camera connection")]
-        //create gameobject variable called player
         public GameObject player;
         #endregion
+
         #region Start
         void Start()
         {
@@ -20,13 +19,13 @@ namespace Player
             player = GameObject.FindGameObjectWithTag("Player");
         }
         #endregion
+
         #region Update
         void Update()
         {
             //If our interact key is pressed
             //To do this we'll need to create a new axis called 'Interact' in our Input Manager, we'll make the positive buttons for it 'e' and 'joystick button 2'
-            if (Input.GetButtonDown("Interact"))
-
+            if (Input.GetButtonDown("Interact") && Movement.canMove)
             {
                 //create a ray
                 Ray interact;
@@ -39,43 +38,27 @@ namespace Player
                 RaycastHit hitInfo;
 
                 //if this physics raycast hits something within 10 units
-                if (Physics.Raycast(interact, out hitInfo, 10))
+                if (Physics.Raycast(interact, out hitInfo, 2))
                 {
                     #region NPC tag
-                    DialogueManager dm = GameObject.FindGameObjectWithTag("Dialogue Manager").GetComponent<DialogueManager>();
-                    dm.dlg = hitInfo.transform.GetComponent<Dialogue2>();
+
                     //and that hits info is tagged NPC
                     if (hitInfo.collider.CompareTag("NPC"))
                     {
-                        //Dialogue dialogue = hitInfo.transform.GetComponent<Dialogue>();
-                        //if (dialogue)
-                        //{
-                        //    dialogue.showDialogue = true;
-                        //    // Disable player movement
-                        //    Movement.canMove = false;
-                        //    Cursor.lockState = CursorLockMode.Confined;
-                        //    Cursor.visible = true;
+                        DialogueManager dm = GameObject.FindGameObjectWithTag("Dialogue Manager").GetComponent<DialogueManager>();
 
-                        //}
-
-                        Dialogue2 dialogue2 = hitInfo.transform.GetComponent<Dialogue2>();
-                        if (dialogue2)
+                        QuestGiver questGiver = hitInfo.collider.GetComponent<QuestGiver>();
+                        if (questGiver)
                         {
-                            Movement.canMove = false;
-                            
-                            dm.dlgText = new string[dialogue2.dialogueText.Length];
-                            dm.dlgText = dialogue2.dialogueText;
-                            dm.DialogueOn = true;
+                            CallQuest(questGiver, dm);
+                        }
 
-                            QuestGiver questGiver = hitInfo.collider.GetComponent<QuestGiver>();
-                            if (questGiver)
-                            {
-                                dm.questGiver = questGiver;
-                            }
+                        Dialogue dialogue = hitInfo.transform.GetComponent<Dialogue>();
+                        if (dialogue)
+                        {
+                            CallDialogue(dialogue, dm);
                         }
                     }
-
-                    
                     #endregion
                     #region Item
                     //and that hits info is tagged Item
@@ -84,15 +67,35 @@ namespace Player
                         //Debug that we hit an Item
                         Debug.Log("Picked up Item");
                     }
+                    #endregion
+                    #region Quest Item
+                    if (hitInfo.collider.CompareTag("Quest Item"))
+                    {
+                        PlayerQuest pq = player.GetComponent<PlayerQuest>();
+                        pq.quests[0].goal.Collected();
+                        Destroy(hitInfo.collider.gameObject);
+                    }
+                    #endregion
                 }
-
             }
         }
+        #region CallDialogue and CallQuest
+        public void CallDialogue(Dialogue dialogue, DialogueManager dm)
+        {
+            dm.dlg = dialogue;
+            dm.InitiliaseDialogue();
+        }
 
-
+        public void CallQuest(QuestGiver questGiver, DialogueManager dm)
+        {
+            dm.questGiver = questGiver;
+        }
         #endregion
+
         #endregion
     }
+
+
 }
 
 

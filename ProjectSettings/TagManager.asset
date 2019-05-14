@@ -9,7 +9,7 @@ TagManager:
   - CheckPoint
   - Enemy
   - Dialogue Manager
-  - Quest Giver
+  - Quest Item
   layers:
   - Default
   - TransparentFX

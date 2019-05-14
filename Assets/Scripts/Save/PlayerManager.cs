@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-
-    public int level;
+    [Header("Player Name")]
     public new string name;
-    public float currentHealth, maxHealth, currentMana, maxMana, currentStamina, maxStamina, currentExperience, maxExperience;
+    [Header("Player Level")]
+    public int level;
+    [Header("Player Stats")]
+    public float currentHealth;
+    public float maxHealth, currentMana, maxMana, currentStamina, maxStamina, currentExperience, maxExperience;
+    [Header("Player Inventory")]
+    public float playerGold;
+    [Header("Player Checkpoint")]
     public CheckPoint checkPoint;
     public float xPos, yPos, zPos;
 
@@ -16,11 +22,19 @@ public class PlayerManager : MonoBehaviour
         checkPoint = GetComponent<CheckPoint>();
     }
 
+    private void Update()
+    {
+        if (currentStamina < maxStamina)
+        {
+            currentStamina += 10 * Time.deltaTime;
+        }
+    }
+
     public void SavePlayer()
     {
-        /*xPos = checkPoint.curCheckPoint.x;
-        yPos = checkPoint.curCheckPoint.y;
-        zPos = checkPoint.curCheckPoint.z;*/
+        //xPos = checkPoint.curCheckPoint.x;
+        //yPos = checkPoint.curCheckPoint.y;
+        //zPos = checkPoint.curCheckPoint.z;
         xPos = gameObject.transform.position.x;
         yPos = gameObject.transform.position.y;
         zPos = gameObject.transform.position.z;
@@ -43,5 +57,10 @@ public class PlayerManager : MonoBehaviour
         yPos = data.yPos;
         zPos = data.zPos;
         transform.position = new Vector3(xPos, yPos, zPos);
+    }
+
+    public void TakeStamina(float staminaCost)
+    {
+        currentStamina -= staminaCost;
     }
 }

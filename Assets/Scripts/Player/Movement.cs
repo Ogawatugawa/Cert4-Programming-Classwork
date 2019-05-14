@@ -11,6 +11,7 @@ public class Movement : MonoBehaviour
 {
     //writing #region creates a collapsible section of code, for tidiness
     #region Variables
+    public PlayerManager player;
     [Header("Character Move Direction")]
     //Creates a section called Character Move Direction in the Inspector under the script section
     //This will chuck up an error if you don't put variables under it
@@ -28,6 +29,7 @@ public class Movement : MonoBehaviour
     public float speed;
     public float baseMovespeed;
     public float sprintSpeed;
+    public float sprintCost;
     public float crouchSpeed;
     public float gravity;
     private Vector3 standingSize;
@@ -45,6 +47,8 @@ public class Movement : MonoBehaviour
     #region Start
     private void Start()
     {
+        player = GetComponent<PlayerManager>();
+
         standingSize = transform.localScale;
         crouchSize = standingSize / 2;
         //charc is on this game object we need to get the character controller that is attached to it
@@ -53,8 +57,6 @@ public class Movement : MonoBehaviour
         //You don't need to write 'this', but it's useful right now to remind you that the script is pulling the component CharacterController that is attached to itself. It does this by default.
         //Sometimes you'll need to pull it from elsewhere, and you'll have to write the location in those cases
         canMove = true;
-
-
     }
     #endregion
     #region Update
@@ -105,10 +107,11 @@ public class Movement : MonoBehaviour
                 crouch1 = false;
                 crouch2 = false;
             }
-            if (sprint1 && !crouch2)
+            if (sprint1 && !crouch2 && player.currentStamina > 0)
             {
-                speed = sprintSpeed;
-                transform.localScale = standingSize;
+                    speed = sprintSpeed;
+                    transform.localScale = standingSize;
+                    player.TakeStamina(sprintCost * Time.deltaTime); 
             }
             else if (sprint1 && crouch2)
             {
@@ -120,10 +123,11 @@ public class Movement : MonoBehaviour
                 transform.localScale = crouchSize;
                 speed = crouchSpeed;
             }
-            else if (crouch1 && sprint2)
+            else if (crouch1 && sprint2 && player.currentStamina > 0)
             {
-                speed = sprintSpeed;
-                transform.localScale = standingSize;
+                    speed = sprintSpeed;
+                    transform.localScale = standingSize;
+                    player.TakeStamina(sprintCost * Time.deltaTime);
             }
             else
             {
