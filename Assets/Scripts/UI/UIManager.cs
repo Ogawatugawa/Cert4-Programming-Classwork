@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    public GameObject canvas;
     public Text goldText;
     public Text interactText;
     public PlayerManager player;

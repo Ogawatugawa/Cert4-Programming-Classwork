@@ -170,8 +170,6 @@ public class DialogueManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
-            //CheckApproval();
-
             newQuestIndex = dlg.newQuestIndex;
             text.text = dmText[index];
 

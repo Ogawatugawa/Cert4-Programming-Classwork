@@ -109,6 +109,8 @@ public class CustomisationSet : MonoBehaviour
         SetTexture("Clothes", clothesIndex = 0);
         SetTexture("Armour", armourIndex = 0);
         #endregion
+
+        ChooseClass(selectedIndex);
     }
     #endregion
 
@@ -271,14 +273,69 @@ public class CustomisationSet : MonoBehaviour
             SetTexture("Clothes", Random.Range(0, clothesMax - 1));
             SetTexture("Armour", Random.Range(0, armourMax - 1));
         }
-    }
-    #region Character Name and Save & Play
-    //name of our character equals a GUI TextField that holds our character name and limit of characters
-    //move down the screen with the int using ++ each grouping of GUI elements are moved using this
+        #region Character Name and Save & Play
+        //name of our character equals a GUI TextField that holds our character name and limit of characters
+        charName = GUI.TextField(new Rect(0.25f * scrW, 1.5f * scrH + mats.Length * (0.5f * scrH), 2 * scrW, 0.5f * scrH), charName, 16);
 
-    //GUI Button called Save and Play
-    //this button will run the save function and also load into the game level
-    #endregion
+
+        // GUI Button called Save and Play
+        if (GUI.Button(new Rect(0.25f * scrW, 2f * scrH + mats.Length * (0.5f * scrH), 2 * scrW, 0.5f * scrH), "Save and Play"))
+        {
+            // This button will run the save function and also load into the game level
+            Save();
+            SceneManager.LoadScene(2);
+        }
+        #endregion
+
+        GUI.Box(new Rect(3.25f * scrW, scrH, 3f * scrW, 0.5f * scrH), "Class");
+
+        if (GUI.Button(new Rect(3.25f * scrW, 1.5f * scrH, 0.5f * scrW, 0.5f * scrH), "<"))
+        {
+            selectedIndex--;
+            if (selectedIndex < 0)
+            {
+                selectedIndex = selectedClass.Length -1;
+            }
+            ChooseClass(selectedIndex);
+        }
+
+        GUI.Box(new Rect(3.75f * scrW, 1.5f * scrH, 2f * scrW, 0.5f * scrH), selectedClass[selectedIndex]);
+
+        if (GUI.Button(new Rect(5.75f * scrW, 1.5f * scrH, 0.5f * scrW, 0.5f * scrH), ">"))
+        {
+            selectedIndex++;
+            if (selectedIndex > selectedClass.Length -1)
+            {
+                selectedIndex = 0;
+            }
+            ChooseClass(selectedIndex);
+        }
+
+        GUI.Box(new Rect(3.25f * scrW, 2f * scrH, 3f * scrW, 0.5f * scrH), "Points: " + points);
+        for (int i = 0; i < 6; i++)
+        {
+            if (points < 10 && tempStats[i] > 0)
+            {
+                if (GUI.Button(new Rect(3.25f * scrW, (2.5f + i * 0.5f) * scrH, 0.5f * scrW, 0.5f * scrH), "-"))
+                {
+                    points++;
+                    tempStats[i]--;
+                }
+            }
+
+            GUI.Box(new Rect(3.75f * scrW, (2.5f + i * 0.5f) * scrH, 2f * scrW, 0.5f * scrH), statArray[i] + ": " + (tempStats[i] + stats[i]));
+
+            if (points > 0)
+            {
+                if (GUI.Button(new Rect(5.75f * scrW, (2.5f + i * 0.5f) * scrH, 0.5f * scrW, 0.5f * scrH), "+"))
+                {
+                    points--;
+                    tempStats[i]++;
+                }
+            }
+        }
+    }
+   
     #endregion
     void ChooseClass(int className)
     {
@@ -290,7 +347,7 @@ public class CustomisationSet : MonoBehaviour
                 stats[con] = 15;
                 stats[intel] = 8;
                 stats[wis] = 10;
-                stats[cha] = 6;
+                stats[cha] = 8;
                 charClass = CharacterClass.Barbarian;
                 break;
             case 1:
@@ -299,88 +356,88 @@ public class CustomisationSet : MonoBehaviour
                 stats[con] = 9;
                 stats[intel] = 12;
                 stats[wis] = 13;
-                stats[cha] = 12;
+                stats[cha] = 14;
                 charClass = CharacterClass.Bard;
                 break;
             case 2:
-                stats[str] = 15;
+                stats[str] = 11;
                 stats[dex] = 10;
-                stats[con] = 15;
-                stats[intel] = 8;
-                stats[wis] = 10;
-                stats[cha] = 6;
+                stats[con] = 11;
+                stats[intel] = 12;
+                stats[wis] = 12;
+                stats[cha] = 10;
                 charClass = CharacterClass.Cleric;
                 break;
             case 3:
-                stats[str] = 15;
+                stats[str] = 10;
                 stats[dex] = 10;
-                stats[con] = 15;
-                stats[intel] = 8;
-                stats[wis] = 10;
-                stats[cha] = 6;
+                stats[con] = 10;
+                stats[intel] = 14;
+                stats[wis] = 14;
+                stats[cha] = 8;
                 charClass = CharacterClass.Druid;
                 break;
             case 4:
-                stats[str] = 15;
+                stats[str] = 16;
                 stats[dex] = 10;
-                stats[con] = 15;
+                stats[con] = 14;
                 stats[intel] = 8;
-                stats[wis] = 10;
-                stats[cha] = 6;
+                stats[wis] = 8;
+                stats[cha] = 8;
                 charClass = CharacterClass.Fighter;
                 break;
             case 5:
-                stats[str] = 15;
-                stats[dex] = 10;
-                stats[con] = 15;
-                stats[intel] = 8;
-                stats[wis] = 10;
-                stats[cha] = 6;
+                stats[str] = 12;
+                stats[dex] = 11;
+                stats[con] = 10;
+                stats[intel] = 11;
+                stats[wis] = 11;
+                stats[cha] = 9;
                 charClass = CharacterClass.Monk;
                 break;
             case 6:
-                stats[str] = 15;
-                stats[dex] = 10;
-                stats[con] = 15;
-                stats[intel] = 8;
-                stats[wis] = 10;
-                stats[cha] = 6;
+                stats[str] = 13;
+                stats[dex] = 8;
+                stats[con] = 12;
+                stats[intel] = 10;
+                stats[wis] = 11;
+                stats[cha] = 10;
                 charClass = CharacterClass.Paladin;
                 break;
             case 7:
-                stats[str] = 15;
-                stats[dex] = 10;
-                stats[con] = 15;
-                stats[intel] = 8;
-                stats[wis] = 10;
-                stats[cha] = 6;
+                stats[str] = 10;
+                stats[dex] = 14;
+                stats[con] = 10;
+                stats[intel] = 10;
+                stats[wis] = 12;
+                stats[cha] = 10;
                 charClass = CharacterClass.Ranger;
                 break;
             case 8:
-                stats[str] = 15;
+                stats[str] = 9;
                 stats[dex] = 10;
-                stats[con] = 15;
-                stats[intel] = 8;
-                stats[wis] = 10;
-                stats[cha] = 6;
+                stats[con] = 10;
+                stats[intel] = 14;
+                stats[wis] = 13;
+                stats[cha] = 10;
                 charClass = CharacterClass.Sorceror;
                 break;
             case 9:
-                stats[str] = 15;
-                stats[dex] = 10;
-                stats[con] = 15;
-                stats[intel] = 8;
-                stats[wis] = 10;
-                stats[cha] = 6;
+                stats[str] = 8;
+                stats[dex] = 9;
+                stats[con] = 8;
+                stats[intel] = 14;
+                stats[wis] = 14;
+                stats[cha] = 13;
                 charClass = CharacterClass.Warlock;
                 break;
             case 10:
-                stats[str] = 15;
+                stats[str] = 8;
                 stats[dex] = 10;
-                stats[con] = 15;
-                stats[intel] = 8;
-                stats[wis] = 10;
-                stats[cha] = 6;
+                stats[con] = 7;
+                stats[intel] = 16;
+                stats[wis] = 14;
+                stats[cha] = 9;
                 charClass = CharacterClass.Wizard;
                 break;
             default:

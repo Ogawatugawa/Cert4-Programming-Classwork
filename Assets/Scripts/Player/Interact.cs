@@ -69,11 +69,20 @@ namespace Player
                     }
                     #endregion
                     #region Quest Item
-                    if (hitInfo.collider.CompareTag("Quest Item"))
+                    QuestItem questItem = hitInfo.collider.GetComponent<QuestItem>();
+                    if (questItem)
                     {
                         PlayerQuest pq = player.GetComponent<PlayerQuest>();
-                        pq.quests[0].goal.Collected();
-                        Destroy(hitInfo.collider.gameObject);
+                        int i = 0;
+                        foreach (Quest quest in pq.quests)
+                        {
+                            if (pq.quests[i].questID == questItem.questID)
+                            {
+                                pq.quests[i].goal.Collected();
+                                Destroy(hitInfo.collider.gameObject);
+                            }
+                            i++;
+                        }
                     }
                     #endregion
                 }

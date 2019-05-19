@@ -20,6 +20,7 @@ public class Quest
 
     // SourceID (Where/what triggers the quest? This needs a database to work)
     // QuestID (If we have a quest DB, which one of those quests is this one?)
+    public int questID;
     // QuestChainID (If we have a quest DB, this could let us link this quest to be part of a series of quests)
 
     // Complete

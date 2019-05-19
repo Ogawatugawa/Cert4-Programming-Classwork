@@ -95,11 +95,8 @@ namespace QuarterHeart
 
         }
 
-
-
         void GenerateHearts()
         {
-            
                 for (int i = 0; i < width; i++)
                 {
                     Vector2 pos = new Vector2(.75f + i, 465);
@@ -108,7 +105,6 @@ namespace QuarterHeart
                     heart.transform.SetParent(transform);
                     heartSlots[i] = heart;
                 }
-            
         }
         #endregion
         #region UpdateHearts
