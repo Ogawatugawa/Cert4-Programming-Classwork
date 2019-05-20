@@ -10,6 +10,8 @@ TagManager:
   - Enemy
   - Dialogue Manager
   - Quest Item
+  - Quest Giver
+  - PlayerMesh
   layers:
   - Default
   - TransparentFX

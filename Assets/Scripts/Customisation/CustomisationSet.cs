@@ -188,6 +188,7 @@ public class CustomisationSet : MonoBehaviour
         //our characters materials are equal to the material array
         character.materials = mat;
         #endregion
+
         #region Set Material Switch
         //create another switch that is goverened by the same string name of our material
         switch (type)
@@ -224,6 +225,7 @@ public class CustomisationSet : MonoBehaviour
     void Save()
     {
         //SetInt for SkinIndex, HairIndex, MouthIndex, EyesIndex
+        CustomisationSave.SaveCustomData(this);
         //SetString CharacterName
     }
     #endregion
@@ -283,7 +285,7 @@ public class CustomisationSet : MonoBehaviour
         {
             // This button will run the save function and also load into the game level
             Save();
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(1);
         }
         #endregion
 
@@ -323,6 +325,11 @@ public class CustomisationSet : MonoBehaviour
                 }
             }
 
+            else
+            {
+                GUI.Box(new Rect(3.25f * scrW, (2.5f + i * 0.5f) * scrH, 0.5f * scrW, 0.5f * scrH), "-");
+            }
+
             GUI.Box(new Rect(3.75f * scrW, (2.5f + i * 0.5f) * scrH, 2f * scrW, 0.5f * scrH), statArray[i] + ": " + (tempStats[i] + stats[i]));
 
             if (points > 0)
@@ -332,6 +339,11 @@ public class CustomisationSet : MonoBehaviour
                     points--;
                     tempStats[i]++;
                 }
+            }
+
+            else
+            {
+                GUI.Box(new Rect(5.75f * scrW, (2.5f + i * 0.5f) * scrH, 0.5f * scrW, 0.5f * scrH), "+");
             }
         }
     }
